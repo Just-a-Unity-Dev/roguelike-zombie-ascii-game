@@ -21,8 +21,8 @@ class Renderer:
 				output.append("\n")
 			output[(len(list(filter(lambda i: i != "\n",output)))//2)+6] = self.player.render()
 		elif self.rendering_method == "classic":
-			for i in range(len(self.world)):
-				for j in range(len(self.world[i])):
+			for i in range(len(self.world.data)):
+				for j in range(len(self.world.data[i])):
 					if i == self.player.y and j == self.player.x:
 						output.append(self.player.render())
 					else:
