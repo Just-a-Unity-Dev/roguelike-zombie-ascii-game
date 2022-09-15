@@ -11,9 +11,10 @@ class Tile:
 
 class Tiles:
 	tileref = [
-		Tile(),
-		Tile(sprite="?", color=Fore.LIGHTRED_EX, solid=True),
-		Tile(sprite="#", color=Fore.YELLOW, solid=True)
+		Tile(), # air
+		Tile(sprite="?", color=Fore.LIGHTRED_EX, solid=True), # error
+		Tile(sprite="#", color=Fore.YELLOW, solid=True), # wood wall
+		Tile(sprite=u"\u2588", color=Fore.WHITE, solid=True) # rock ungabunga
 	]
 
 	def get_tile_from_id(self, id: int):
