@@ -1,3 +1,4 @@
+from modules.generation import Generation
 from modules.player import Player
 from modules.renderer import Renderer
 from modules.tiles import Tiles
@@ -5,9 +6,12 @@ from modules.world import World
 RENDERING_METHOD = "player" # Can either be "player" or "classic"
 
 tiles = Tiles()
-world = World(8,8,tiles=tiles)
+gen = Generation()
+world = gen.generate(tiles=tiles, x=64, y=64)
 player = Player(world=world)
 renderer = Renderer(rendering_method=RENDERING_METHOD, player=player, world=world)
+
+player.randomizePosition()
 
 # def parseMap():
 # 	print("beginning to parse map")
@@ -27,34 +31,6 @@ renderer = Renderer(rendering_method=RENDERING_METHOD, player=player, world=worl
 
 running = True
 
-# def renderWorld():
-# 	global running
-# 	clear()
-# 	zoom = 3
-# 	output = []
-# 	if renderingMethod == "player":
-# 		for i in range(-zoom, zoom):
-# 			for j in range(-zoom, zoom):
-# 				output.append(getTileFromPos(player.x + j, player.y + i).render())
-# 			output.append("\n")
-# 		output[(len(list(filter(lambda i: i != "\n",output)))//2)+6] = player.render()
-# 	elif renderingMethod == "classic":
-# 		for i in range(len(world)):
-# 			for j in range(len(world[i])):
-# 				if i == player.y and j == player.x:
-# 					output.append(player.render())
-# 				else:
-# 					output.append(getTileFromPos(j, i).render())
-# 			output.append("\n")
-# 	else:
-# 		print(f"{Fore.LIGHTMAGENTA_EX}[FATL]{Fore.RED} unknown rendering method \"{str(renderingMethod)}\", shutting down {Fore.RESET}")
-# 		running = False
-# 		quit(1)
-
-# 	print(''.join(map(str, output)))
-
-# print(world)
-
 while running:
 	renderer.render()
 	print(f"X: {player.x} | Y: {player.y}")
@@ -64,7 +40,6 @@ while running:
 	inp = rinp.lower()
 	if inp == "q":
 		print("Goodbye!")
-		print(world)
 		quit()
 	elif inp.startswith("w"):
 		player.movePlayer(0,-1)
@@ -74,5 +49,5 @@ while running:
 		player.movePlayer(-1,0)
 	elif inp.startswith("d"):
 		player.movePlayer(1,0)
-
-print(world.data)
+	elif inp.startswith("g"):
+		world = gen.generate(tiles=tiles, x=64, y=64)
