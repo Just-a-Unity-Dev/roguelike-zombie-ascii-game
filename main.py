@@ -3,11 +3,15 @@ from modules.player import Player
 from modules.renderer import Renderer
 from modules.tiles import Tiles
 from modules.world import World
-RENDERING_METHOD = "classic" # Can either be "player" or "classic"
+from random import randint
+RENDERING_METHOD = "player" # Can either be "player" or "classic"
+WORLD_WIDTH = 64
+WORLD_HEIGHT = 64
+seed = randint(1,2147483647)
 
 tiles = Tiles()
 gen = Generation()
-world = gen.generate(tiles=tiles, size_x=32, size_y=32)
+world = gen.generate(tiles=tiles, size_x=WORLD_WIDTH, size_y=WORLD_HEIGHT, seed=randint(1,2147483647))
 player = Player(world=world)
 renderer = Renderer(rendering_method=RENDERING_METHOD, player=player, world=world)
 
@@ -33,6 +37,7 @@ running = True
 
 while running:
 	renderer.render()
+	print(f"Seed: {seed}")
 	print(f"X: {player.x} | Y: {player.y}")
 	# print(f"Current Tile: {getTileFromPos(player.x, player.y).render()}")
 	# rinp = keyboard.read_key()
@@ -50,4 +55,5 @@ while running:
 	elif inp.startswith("d"):
 		player.movePlayer(1,0)
 	elif inp.startswith("g"):
-		world = gen.generate(tiles=tiles, x=64, y=64)
+		seed = randint(1,2147483647)
+		world.data = gen.generate(tiles=tiles, size_x=WORLD_WIDTH, size_y=WORLD_HEIGHT, seed=seed).data

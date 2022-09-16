@@ -12,14 +12,15 @@ class Renderer:
 	def render(self):
 		global running
 		Utilities.clear()
-		zoom = 3
+		zoom = 6
 		output = []
 		if self.rendering_method == "player":
 			for i in range(-zoom, zoom):
 				for j in range(-zoom, zoom):
 					output.append(self.world.get_tile_from_pos(self.player.x + j, self.player.y + i).render())
 				output.append("\n")
-			output[(len(list(filter(lambda i: i != "\n",output)))//2)+6] = self.player.render()
+			output[(zoom*2)*(zoom+1)] = self.player.render()
+			# output[(len(list(filter(lambda i: i != "\n",output)))//2)+6] = self.player.render()
 		elif self.rendering_method == "classic":
 			for i in range(len(self.world.data)):
 				for j in range(len(self.world.data[i])):

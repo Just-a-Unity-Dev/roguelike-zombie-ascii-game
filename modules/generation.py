@@ -4,8 +4,8 @@ import numpy as np
 import random
 
 class Generation:
-	def __init__(self) -> None:
-		pass
+	def __init__(self, seed: int = None) -> None:
+		self.seed = seed or random.randint(1,2147483647)
 
 	def interpolant(self, t):
 		return t*t*t*(t*(t*6 - 15) + 10)
@@ -94,14 +94,22 @@ class Generation:
 			amplitude *= persistence
 		return noise
 	
-	def generate(self, size_x: int, size_y: int, tiles: Tiles):
-		np.random.seed(0)
+	def generate(self, size_x: int, size_y: int, tiles: Tiles, seed: int = None) -> World:
+		self.seed = seed or self.seed
+		np.random.seed(self.seed)
 		noise = self.generate_perlin_noise_2d((size_x,size_y), (8, 8))
 		world = World(x=size_x, y=size_y, tiles=tiles)
 
 		for y,yv in enumerate(noise):
 			for x,xv in enumerate(noise):
-				if xv[y] >= 0.3:
+				data = xv[y]
+				if data >= 0.5:
+					world.data[y][x] = 4
+				elif data >= 0.3:
 					world.data[y][x] = 3
+				elif data <= -0.5:
+					world.data[y][x] = 5
+				else:
+					world.data[y][x] = 6
 		
 		return world
