@@ -3,11 +3,11 @@ from modules.player import Player
 from modules.renderer import Renderer
 from modules.tiles import Tiles
 from modules.world import World
-RENDERING_METHOD = "player" # Can either be "player" or "classic"
+RENDERING_METHOD = "classic" # Can either be "player" or "classic"
 
 tiles = Tiles()
 gen = Generation()
-world = gen.generate(tiles=tiles, x=64, y=64)
+world = gen.generate(tiles=tiles, size_x=32, size_y=32)
 player = Player(world=world)
 renderer = Renderer(rendering_method=RENDERING_METHOD, player=player, world=world)
 
